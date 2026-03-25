@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Trial lesson — random pair</title>
+    <style>
+      :root {
+        font-family:
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          sans-serif;
+        line-height: 1.55;
+        color: #1a1a1a;
+        background: #f6f7f9;
+      }
+      body {
+        max-width: 56rem;
+        margin: 0 auto;
+        padding: 2rem 1.25rem 3rem;
+      }
+      h1 {
+        font-size: 1.35rem;
+        font-weight: 600;
+        margin: 0 0 1rem;
+        text-align: center;
+      }
+      .toolbar {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1.25rem;
+      }
+      button {
+        appearance: none;
+        border: 0;
+        border-radius: 10px;
+        padding: 0.65rem 1.35rem;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #fff;
+        background: #2563eb;
+        cursor: pointer;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+      }
+      button:hover {
+        background: #1d4ed8;
+      }
+      button:active {
+        transform: translateY(1px);
+      }
+      button.btn-session2 {
+        background: #059669;
+      }
+      button.btn-session2:hover {
+        background: #047857;
+      }
+      .block-title {
+        font-size: 1.05rem;
+        font-weight: 600;
+        margin: 2rem 0 0.75rem;
+        text-align: center;
+        color: #374151;
+      }
+      .table-wrap {
+        background: #fff;
+        border-radius: 12px;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        overflow: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.95rem;
+      }
+      th,
+      td {
+        padding: 1rem 1.1rem;
+        text-align: left;
+        vertical-align: top;
+        border: 1px solid #e5e7eb;
+      }
+      th {
+        width: 50%;
+        background: #f3f4f6;
+        font-weight: 600;
+        color: #374151;
+      }
+      th.teacher {
+        border-top-left-radius: 11px;
+      }
+      th.student {
+        border-top-right-radius: 11px;
+      }
+      td {
+        background: #fafafa;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+      .placeholder {
+        color: #9ca3af;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Random 1 cặp tin nhắn</h1>
+    <div class="toolbar">
+      <button type="button" id="randomBtn">Random 1 cặp trial</button>
+    </div>
+
+    <div class="table-wrap" aria-live="polite" aria-atomic="true">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col" class="teacher">Teacher</th>
+            <th scope="col" class="student">Student</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td id="cellTeacher" class="placeholder">Bấm nút để hiển thị…</td>
+            <td id="cellStudent" class="placeholder">Bấm nút để hiển thị…</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      const pairs = [
+        {
+          teacher:
+            "Hi,\nThank you for booking a trial lesson with me! What can you expect from our first lesson? I'll assess your level and get a better understanding of your needs, demonstrate my teaching style and develop a personalized learning plan for you. See you soon.",
+          student:
+            "Hi! Thanks for your message — I'm really looking forward to the trial. I usually have back-to-back meetings on weekdays, so I just want to plan my evening properly. Could you tell me roughly how long the trial lesson will be, and whether you prefer to start exactly on time or allow a couple of minutes to settle in?",
+        },
+        {
+          teacher:
+            "Hello,\nThanks for scheduling a trial class! In our first session, I'll evaluate where you are, learn more about your goals, show you how I teach, and outline a study plan tailored to you. Looking forward to meeting you.",
+          student:
+            "Hello. I'm happy I could find a slot that works for both of us. I haven't taken private lessons in a long time, so I'm not sure what the etiquette is. Is there anything I should prepare before we meet — like a notebook, a specific app, or a short self-introduction written down?",
+        },
+        {
+          teacher:
+            "Hi there,\nI'm glad you booked a trial lesson. We'll start by checking your level and what you want to achieve, you'll see how my lessons work, and we'll sketch a personalized roadmap together. See you in class!",
+          student:
+            "Hi — I wanted to be upfront: I'm actually a complete beginner, and I get shy when I make mistakes. I hope that's okay, and that we can go slowly at first. I'm motivated though — I mainly want to feel confident in everyday conversations. See you in class!",
+        },
+        {
+          teacher:
+            "Thank you for choosing a trial lesson with me. First lesson: quick level check, discussion of your needs, a sample of my teaching approach, and a custom plan so you know what comes next. Can't wait!",
+          student:
+            "Thank you! I've used a few different apps for calls before and sometimes the audio lags. Before we meet, could you confirm which video platform we'll use and whether I should join from a laptop or if a tablet is fine? I can test the link earlier in the day if that helps.",
+        },
+        {
+          teacher:
+            "Hi!\nYou've booked a trial with me — great. Expect an informal assessment, clarity on your goals, a taste of my teaching style, and a learning plan built around you. See you soon.",
+          student:
+            "Hi! My work shifts sometimes get changed at short notice, so I wanted to ask: if something urgent comes up, is it possible to reschedule the trial? I promise I'll give you as much notice as I can, and I don't want to waste your time.",
+        },
+        {
+          teacher:
+            "Thanks for your trial booking. Our first meeting will cover your current level, priorities, how I structure lessons, and next steps in a plan made for you. Excited to get started.",
+          student:
+            "Quick question about feedback: I learn best when I know what I'm doing wrong, but I also freeze if I'm interrupted every few words. Will you correct me while I speak, type corrections in the chat, or mostly summarize at the end? I'm happy to follow whatever works best in your lessons.",
+        },
+        {
+          teacher:
+            "Hello and thank you for the trial lesson reservation. I'll gauge your proficiency, listen to what you need, demonstrate my method, and propose a personalized path forward. See you then.",
+          student:
+            "Do you usually follow a textbook series, or do you create your own materials for lessons? I'm asking because I'm preparing for a certification in a few months, but I also want natural speaking practice — I'm curious how you usually balance structure and conversation.",
+        },
+        {
+          teacher:
+            "Hi,\nWelcome — your trial lesson is confirmed. We'll assess your skills, align on objectives, experience a short sample of my teaching, and agree on a tailored plan. Talk soon!",
+          student:
+            "What happens after the trial if I'd like to continue with more lessons? For example, do you offer packages, weekly slots, or pay-as-you-go — and is there usually a quick recap after the trial so I know what the next steps would look like? No pressure; I just like to plan ahead.",
+        },
+        {
+          teacher:
+            "Thank you for booking a trial. In session one I assess your level, understand your context, show my teaching style in action, and draft a learning plan that fits you. See you!",
+          student:
+            "How do you usually check my level in the first lesson — is it like a formal test? I've studied on and off for years but I've never had an official level, and honestly exams make me nervous. If it's more like a relaxed conversation with a few tasks, that would put me at ease.",
+        },
+        {
+          teacher:
+            "Hi there,\nAppreciate you signing up for a trial. Expect: level evaluation, needs conversation, teaching demo, and a personalized roadmap so every following lesson counts. See you soon.",
+          student:
+            "One worry: my Wi‑Fi can be a bit unstable during heavy rain. What if my internet cuts out during the lesson — do we pause and reconnect, reschedule the rest, or continue by phone? I can sit closer to the router next time; I just want to know what your usual policy is.",
+        },
+        {
+          teacher:
+            "Good morning,\nYour trial slot is saved on my calendar. In our first lesson we'll map your goals, run a friendly skills check, and agree on how we can work together week to week. I'm looking forward to meeting you.",
+          student:
+            "Morning! I'm in a different time zone from what my profile might suggest — could you double-check the lesson time in my local time when you send the reminder? I don't want to miss the link because I converted the hours wrong. Also, is it okay if I join one minute early to check my mic?",
+        },
+        {
+          teacher:
+            "Hi!\nThanks for reserving a trial with me. We'll keep the first session practical: a short diagnostic, a realistic mini-task, and clear recommendations so you know what progress could look like. Speak soon.",
+          student:
+            "Hi! Between work and family I can't always do heavy homework — is it realistic to start with something light between lessons, like 15 minutes a few times a week? I want to improve, but I also don't want to overpromise and then disappear.",
+        },
+        {
+          teacher:
+            "Hello,\nI'm pleased you booked a trial lesson. We'll clarify your priorities, review strengths and gaps, and you'll get a feel for how feedback and practice fit into my lessons. See you at the scheduled time.",
+          student:
+            "Hello. I learn faster when I can review later — do you ever share a short summary, key phrases, or optional exercises after class? If not, no problem; I'll take my own notes. I just wanted to ask so I know what to expect.",
+        },
+        {
+          teacher:
+            "Hi there,\nTrial confirmed! First meeting is about understanding you: your background, your targets, and the habits that will help you improve fastest. I'll also show you what a 'normal' lesson looks like with me.",
+          student:
+            "Hi! I've bounced between American and British materials in the past and my pronunciation is a bit mixed. For our lessons, would you prefer we pick one standard and stick to it, or is a flexible approach okay? I mainly need English for international work calls.",
+        },
+        {
+          teacher:
+            "Thank you for booking a trial.\nI'll use the first session to listen carefully to how you communicate now, then suggest a simple plan with milestones you can actually sustain. Excited to begin.",
+          student:
+            "Thanks — quick note: I'm booking this for myself (not for a child). My goal is professional emails and meetings, not exams. If you usually teach younger learners too, I just wanted to confirm your adult-lesson style is what I'll get in the trial.",
+        },
+        {
+          teacher:
+            "Hi,\nGreat to see a trial on the schedule. We'll balance conversation with targeted practice so you can feel progress without overwhelm — and we'll end with a clear idea of what to focus on next.",
+          student:
+            "Hi! I can read okay but I freeze on phone calls at work. Could we include a tiny bit of 'workplace speaking' style practice in the trial, even just introductions and clarifying questions? I don't need anything fancy — I just want to see how you approach real situations.",
+        },
+        {
+          teacher:
+            "Hello and thanks for choosing a trial lesson.\nWe'll start with a warm-up chat, then a few focused tasks so I can see how you handle grammar, vocabulary, and fluency in context. Then we'll talk next steps.",
+          student:
+            "Hello. Honestly my grammar is rusty — I rely on intuition and sometimes I'm wrong but I don't know why. During the trial, if you spot a pattern of mistakes, is it helpful if you name the rule briefly, or should we stay more conversational at first?",
+        },
+        {
+          teacher:
+            "Hi!\nYour trial is booked. Expect a supportive first lesson: I'll ask about your goals, observe how you use English under light pressure, and suggest a routine that matches your schedule and motivation.",
+          student:
+            "Hi! Listening is my weak point — fast accents on podcasts still lose me. In the trial, do you recommend I try to repeat what I hear, take notes, or just focus on understanding the gist? I want to build a habit that actually helps long term.",
+        },
+        {
+          teacher:
+            "Thanks for scheduling a trial with me.\nI'll keep the session structured but relaxed: goals, quick assessment, a sample activity, and a roadmap you can follow whether you continue with me or study independently for a while.",
+          student:
+            "Thanks! I work in engineering and often have to explain bugs and timelines to non-technical people. If we continue after the trial, can lessons include short role-plays like status updates and email rewrites, or do you prefer a more general English track?",
+        },
+        {
+          teacher:
+            "Hi there,\nLooking forward to our trial lesson. We'll identify what 'success' means for you, check your current comfort level, and try one exercise that matches your main objective — interview prep, travel, exams, or daily fluency.",
+          student:
+            "Hi — I'm interviewing for a new role next month. I'm not asking for a full mock interview in the trial, but could we touch lightly on how you'd help with STAR answers and sounding natural without memorizing scripts? I want to see if your style clicks with me.",
+        },
+        {
+          teacher:
+            "Hello,\nTrial lesson locked in. I'll assess your speaking and listening in a natural way, explain how I give corrections and homework, and outline a weekly rhythm that fits your lifestyle. See you soon.",
+          student:
+            "Hello! How often do most of your students take lessons — once a week, twice, or more intensive blocks? I'm trying to decide what I can commit to after the trial, and I'd love an honest suggestion based on what actually moves the needle for busy adults.",
+        },
+        {
+          teacher:
+            "Hi,\nAppreciate your trial booking. Our first meeting will help us both decide if we're a good match: you'll experience my teaching, and I'll understand the support you need to reach your goals confidently.",
+          student:
+            "Hi. I sometimes feel self-conscious on camera — is it okay if I keep video on but sit slightly off-center, or do you prefer full face-to-face? I want to respect your classroom norms while still feeling comfortable enough to speak freely.",
+        },
+        {
+          teacher:
+            "Thank you for booking a trial session.\nWe'll spend a few minutes on logistics and goals, then move into activities that show how you process language in real time. I'll finish with concrete suggestions tailored to you.",
+          student:
+            "Thank you! If I'm running 5 minutes late because of a meeting that overruns, should I message you on the platform, or is email better? I hate being late and I don't want you to think I'm not serious about the trial.",
+        },
+        {
+          teacher:
+            "Hi!\nYour trial is on my calendar. Expect a friendly diagnostic, clear explanations when something is tricky, and a plan that respects both ambition and realism — consistency beats intensity every time.",
+          student:
+            "Hi! I'm traveling for two weeks soon after the trial. If we work together, is it okay to pause lessons during that trip, or do you recommend short check-ins so I don't lose momentum? I can do light practice from a hotel if needed.",
+        },
+        {
+          teacher:
+            "Hello,\nThanks for trusting me with a trial lesson. I'll combine conversation with targeted feedback so you can see how small adjustments can quickly make your English sound clearer and more natural.",
+          student:
+            "Hello. People sometimes misunderstand my TH sounds and word stress. I don't need perfect accent coaching, but I'd like clearer pronunciation over time. In the trial, is it okay if you note 2–3 priority sounds for me to work on afterward?",
+        },
+        {
+          teacher:
+            "Hi there,\nTrial confirmed — wonderful. We'll explore what you already do well, what slows you down, and what practice style keeps you motivated. Then we'll align on a direction that feels doable.",
+          student:
+            "Hi there. I write English at work but I rarely speak out loud outside meetings, so my fluency feels stuck. After the trial, do you assign speaking drills or shadowing, or is it mostly live conversation during class? I want a routine I can stick to.",
+        },
+        {
+          teacher:
+            "Good afternoon,\nI'm glad you booked a trial. First lesson: we'll clarify outcomes, run a short skills snapshot, and discuss how accountability and review can help you improve without burning out.",
+          student:
+            "Afternoon! Could you share how far in advance you need notice if I cancel or move a lesson? I don't plan to cancel often, but my job has emergency on-call weeks and I'd rather know the rule upfront than guess what's fair.",
+        },
+        {
+          teacher:
+            "Hi,\nThanks for signing up for a trial. I'll show you how I blend explanation with practice, and we'll co-create a mini-plan so you leave the session knowing exactly what to work on first.",
+          student:
+            "Hi! Do you send invoices by email, or is everything handled inside the booking platform? I'm asking because my company might reimburse part of the cost and they sometimes want a simple receipt or description of the service.",
+        },
+        {
+          teacher:
+            "Hello,\nYour trial lesson reservation is all set. We'll talk about your timeline, your biggest frustrations in English, and the habits that will help you improve steadily — not just during class, but between classes too.",
+          student:
+            "Hello. I studied years ago and I think I'm around intermediate, but I've forgotten a lot of the rules. In the trial, would you rather I try harder sentences even if I make mistakes, or keep it simpler so you can assess me accurately?",
+        },
+        {
+          teacher:
+            "Hi!\nLooking forward to meeting you for the trial. We'll keep energy high and pressure low: a few questions, a short task, and honest feedback — plus a roadmap that matches your real life, not an imaginary perfect schedule.",
+          student:
+            "Hi! English pop culture helps me learn — would you ever weave in short clips or lyrics as optional homework, or do you prefer strictly practical materials? I'm flexible; I just enjoy learning more when it feels connected to things I like.",
+        },
+      ];
+
+      const btn = document.getElementById("randomBtn");
+      const cellTeacher = document.getElementById("cellTeacher");
+      const cellStudent = document.getElementById("cellStudent");
+
+      btn.addEventListener("click", () => {
+        const i = Math.floor(Math.random() * pairs.length);
+        const { teacher, student } = pairs[i];
+        cellTeacher.textContent = teacher;
+        cellStudent.textContent = student;
+        cellTeacher.classList.remove("placeholder");
+        cellStudent.classList.remove("placeholder");
+      });
+    </script>
+  </body>
+</html>
