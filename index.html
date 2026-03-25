@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Trial lesson — random pair</title>
+    <title>Random cặp tin nhắn — trial &amp; buổi 2</title>
     <style>
       :root {
         font-family:
@@ -106,7 +106,8 @@
     </style>
   </head>
   <body>
-    <h1>Random 1 cặp tin nhắn</h1>
+    <h1>Random cặp tin nhắn</h1>
+    <h2 class="block-title">Buổi 1 — trial</h2>
     <div class="toolbar">
       <button type="button" id="randomBtn">Random 1 cặp trial</button>
     </div>
@@ -123,6 +124,30 @@
           <tr>
             <td id="cellTeacher" class="placeholder">Bấm nút để hiển thị…</td>
             <td id="cellStudent" class="placeholder">Bấm nút để hiển thị…</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="block-title">Buổi 2</h2>
+    <div class="toolbar">
+      <button type="button" id="randomBtnSession2" class="btn-session2">
+        Render 1 cặp buổi 2
+      </button>
+    </div>
+
+    <div class="table-wrap" aria-live="polite" aria-atomic="true">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col" class="teacher">Teacher</th>
+            <th scope="col" class="student">Student</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td id="cellTeacher2" class="placeholder">Bấm nút để hiển thị…</td>
+            <td id="cellStudent2" class="placeholder">Bấm nút để hiển thị…</td>
           </tr>
         </tbody>
       </table>
@@ -312,17 +337,214 @@
         },
       ];
 
+      /** Buổi 2: follow-up / môn học cụ thể hoặc tin nhắn trung lập — student thường dài hơn teacher. */
+      const pairsSession2 = [
+        {
+          teacher:
+            "Hi! Thanks for a great second lesson today. For next time, please review the algebra sheet on linear equations (problems 1–8). Let me know if anything felt unclear.",
+          student:
+            "Hi — thank you, I appreciated how you explained the slope part slowly. I'm still mixing up when to flip the sign in inequalities, especially when we multiply both sides by a negative. I tried problems 1–8 and got stuck on 5 and 7; would it be okay if I send a photo of my work before next class so you can see exactly where my reasoning breaks down?",
+        },
+        {
+          teacher:
+            "Hello,\nQuick note after class: your biology vocabulary list for Unit 3 is due Thursday. We'll start next lesson with a short recap of cell division.",
+          student:
+            "Hello! Thursday works for me. I started flashcards for mitosis vs meiosis but I keep confusing the stages names in English. If you have a mnemonic you like, I'd love to hear it. Also, my lab partner was absent today — should we still submit the joint worksheet as a draft, or wait until we both touch it?",
+        },
+        {
+          teacher:
+            "Hi there,\nFor History, please read pages 112–118 and jot down three causes you think matter most for the essay prompt. We'll workshop thesis statements next session.",
+          student:
+            "Hi! I read the chapter and I think I have too many 'causes' and my thesis is getting messy. I'm also not sure how much I should quote the textbook versus paraphrase for your class standards. Could I bring two thesis attempts next time and you tell me which direction is stronger? I don't need line-by-line edits — just a nudge on focus.",
+        },
+        {
+          teacher:
+            "Good afternoon,\nReminder: your short reflection on the poem we read is optional but recommended. No pressure — even six sentences is fine.",
+          student:
+            "Afternoon! I'll do it — I actually liked the poem but I'm embarrassed about my metaphors sounding cheesy. I might write something simple about imagery and sound. If I stay concrete and avoid big abstract claims, is that enough for what you're looking for, or do you want a clearer 'argument' even in a short reflection?",
+        },
+        {
+          teacher:
+            "Hi!\nThanks for staying focused today. Neutral reminder: if you need extra help, my office hours are Wednesdays 4–5 — just message me first so I know you're coming.",
+          student:
+            "Hi! Wednesdays 4–5 might clash with my part-time job sometimes, but I can usually swap shifts with notice. If I can't make office hours, is email okay for quick questions, or would you prefer I wait and ask at the start of class? I don't want to flood your inbox with tiny things.",
+        },
+        {
+          teacher:
+            "Hello,\nAfter today's chemistry lesson: please balance the five equations on the handout. We'll go over common mistakes at the beginning of our next meeting.",
+          student:
+            "Hello — balancing went okay until I hit the one with polyatomic ions; I wasn't sure if I should treat NO₃ as a single unit the whole time. I watched a short video but each channel does it slightly differently. Could you confirm the rule you want us to follow in your class so I don't practice the 'wrong habit'?",
+        },
+        {
+          teacher:
+            "Hi,\nGreat effort in physics today. For next class, sketch a free-body diagram for the three scenarios on the worksheet (don't solve yet — just forces and directions).",
+          student:
+            "Hi! For scenario B, I'm confused about whether friction always opposes motion or opposes the relative motion between surfaces — the wording in the problem is tricky. I drew two versions and they look different. Is it alright if I bring both sketches and we compare them for two minutes at the start? I learn a lot from seeing why one model is wrong.",
+        },
+        {
+          teacher:
+            "Hi there,\nThanks for joining class today. Geography: please label the map packet and be ready to explain two climate patterns using the vocabulary we introduced.",
+          student:
+            "Hi! The map packet is mostly done, but the legend scale confused me — I think I converted distances wrong. Also, when you say 'explain climate patterns,' do you want us to mention latitude and altitude, or focus more on ocean currents? I can prepare either way; I just want to match what you'll grade for.",
+        },
+        {
+          teacher:
+            "Hello,\nArt class follow-up: bring your rough sketches for the still-life project. We'll talk about composition before you move to final paper.",
+          student:
+            "Hello! My sketches feel too crowded — I keep adding objects because I like detail, but then the focal point disappears. If I upload photos to the shared folder tonight, could you pick one layout direction before I commit to final paper? I promise I won't ask you to 'choose for me' every week; this is just my first still-life and I'm unsure.",
+        },
+        {
+          teacher:
+            "Hi!\nMusic: practice the scale pattern we drilled today slowly with a metronome at 60 bpm. Next lesson we'll connect it to the étude excerpt.",
+          student:
+            "Hi! My apartment is thin-walled so I practice with a mute sometimes — will that mess up my articulation for next week? I can also practice fingerings silently on a table if that's better. I don't want to build a habit that sounds fine at home but falls apart in your room.",
+        },
+        {
+          teacher:
+            "Thanks for today.\nPE: remember to bring proper shoes Tuesday. If you're recovering from a minor injury, bring a note and we'll adjust activities safely.",
+          student:
+            "Thanks! My ankle is mostly fine now, but it still aches after lateral cuts. I'm okay jogging straight lines. If the lesson is heavy on agility drills, is there a modified track I can follow so I don't re-injure it? I can do core work or bike warm-up if you prefer — I just want to participate without being reckless.",
+        },
+        {
+          teacher:
+            "Hi,\nComputer science: finish the debugging exercise (the one with the loop). If your code runs but output looks 'almost right,' screenshot it anyway — almost-right bugs teach a lot.",
+          student:
+            "Hi — my loop stops one iteration early and I can't see why. I compared with a classmate and we're one character different but both outputs look plausible. I'll send screenshots tonight. If I'm totally stuck after 30 minutes, is it acceptable to write a short paragraph explaining my hypothesis, or do you want me to keep trying until it's perfect?",
+        },
+        {
+          teacher:
+            "Hello,\nEconomics: review the supply/demand shifts we diagrammed. Come prepared with one real-world example (news is fine) for next discussion.",
+          student:
+            "Hello! I found an article about fuel prices but it mixes politics with economics and I'm not sure which variables count as 'supply shock' versus expectations. I can summarize the article in three bullets, but I might be wrong about the label. Is it okay if my example is imperfect as long as I explain my reasoning clearly?",
+        },
+        {
+          teacher:
+            "Hi there,\nPhilosophy reading for next time: the short excerpt on ethics — focus on the author's main argument, not every detail.",
+          student:
+            "Hi! The reading is dense for me in English; I spent an hour and I'm still unsure what counts as the 'main argument' versus background. I can write a half-page paraphrase, but I might miss the point. If I bring two possible interpretations, could you help me see which one is closer to what you want us to track for the seminar?",
+        },
+        {
+          teacher:
+            "Hi!\nNeutral check-in: if anything from last week felt rushed, tell me — we can rebalance speaking vs writing practice going forward.",
+          student:
+            "Hi — I really liked the speaking drills; writing felt a bit fast for me because I edit too much mid-sentence. If we do another timed paragraph, could I get a 60-second 'outline-only' moment first? I'm not asking for extra time every week — just a small scaffold until I get less perfectionist in class.",
+        },
+        {
+          teacher:
+            "Thanks for participating today.\nMath: we'll continue word problems next lesson — skim the examples in section 4.2 so the terminology feels familiar.",
+          student:
+            "Thanks! Word problems scare me because I translate words into the wrong equation. I started highlighting keywords but I think I'm memorizing tricks instead of understanding. Could we do one problem next time where I talk out loud through my translation step-by-step, even if it's slow? I learn best when my thinking is visible.",
+        },
+        {
+          teacher:
+            "Hello,\nScience fair update: refine your hypothesis so it's testable with the materials you actually have. Bring your materials list next class.",
+          student:
+            "Hello! My original idea needs equipment we can't access, so I narrowed it down, but now the hypothesis feels too small and boring. I'm worried you'll think it's not ambitious enough. I'd rather do something feasible and well-controlled than something huge I can't finish — does that align with what you're looking for at this stage?",
+        },
+        {
+          teacher:
+            "Hi,\nEnglish: we'll discuss chapters 4–5 next session. Pick one character moment that surprised you and be ready to quote a line (approximate quote is okay).",
+          student:
+            "Hi! There's a scene where the narrator shifts tone and I'm not sure if it's intentional irony or I'm misreading. I can quote it, but I might sound confused in discussion. Is it acceptable to start with 'I might be wrong, but…' or do you want confident claims only? I don't want to derail the class with uncertainty.",
+        },
+        {
+          teacher:
+            "Hi there,\nThanks for the good energy today. Reminder: group project roles should be posted in the shared doc by Friday — keep it fair and specific.",
+          student:
+            "Hi! Our group split tasks, but two people want to present and nobody wants to compile references. I can take bibliography and formatting if needed, but I'm worried I'll end up doing invisible work. If you have a simple template for roles + deadlines, we can follow it literally and avoid awkward group chats.",
+        },
+        {
+          teacher:
+            "Hello,\nCivics: read the one-page summary on voting systems. We'll do a neutral compare/contrast activity — bring two questions you're genuinely curious about.",
+          student:
+            "Hello! I have questions but they might sound political even though I'm trying to stay analytical. I can phrase them carefully, but I don't want classmates to feel attacked. If a question is too heated, should I send it to you privately first, or skip it and pick a safer one?",
+        },
+        {
+          teacher:
+            "Hi!\nAfter today: please upload your draft paragraph to the portal (draft = imperfect is expected). I'll leave short comments by Sunday evening.",
+          student:
+            "Hi! I uploaded a draft but I forgot the naming convention — should I re-upload with the correct filename or leave it to avoid duplicates? Also, if your comments are brief, is it okay if I reply with one clarification question on the portal, or do you prefer we handle follow-ups in class?",
+        },
+        {
+          teacher:
+            "Thanks for staying on track.\nStudy tip (neutral): try 25-minute focused blocks with a 5-minute break — it often beats marathon cramming for retention.",
+          student:
+            "Thanks — I tried Pomodoro before but I get anxious during breaks like I'm 'wasting time.' If I use breaks to stretch or review flashcards lightly, does that still count as a real break, or should breaks be totally unrelated to the subject? I'm trying to build a routine I won't quit after three days.",
+        },
+        {
+          teacher:
+            "Hi,\nPsychology: review the memory models handout. Next lesson we'll connect encoding strategies to how you actually study for other subjects.",
+          student:
+            "Hi! The models make sense in class but when I study at night I'm tired and I default to rereading notes. I want to try spacing and self-quizzing, but I don't know how to measure if it's working yet. Could you suggest one simple weekly checkpoint so I can tell if I'm improving versus just feeling busy?",
+        },
+        {
+          teacher:
+            "Hello,\nFrench/Spanish crossover note: if you're mixing cognates with English grammar, that's normal — we'll do a quick repair drill next time on sentence patterns.",
+          student:
+            "Hello! I keep putting adjectives in English order and then I self-correct mid-sentence and lose fluency. I'm not asking for perfection immediately — but if you hear me hesitate, is it better to pause and fix it, or finish the thought and clean it up after? I want a habit that helps in real conversations too, not only in drills.",
+        },
+        {
+          teacher:
+            "Hi there,\nThanks for asking thoughtful questions today. Neutral: if you ever need an extension, request it early — surprises are harder to accommodate fairly.",
+          student:
+            "Hi — understood. My issue is sometimes I don't know I'm stuck until two days before a deadline. If I message you with a concrete plan (what's done, what's left, new target date), does that count as 'early enough' even if it's not a week ahead? I don't want to sound like I'm making excuses; I just want to communicate honestly.",
+        },
+        {
+          teacher:
+            "Hi!\nLab safety reminder: goggles on for any chemical portion, ties back, no food near stations. We'll run the short demo at the start next class.",
+          student:
+            "Hi! I wear prescription glasses — do those count as eye protection for your lab rules, or do I need goggles over them? I can buy a pair if needed; I just don't want to show up non-compliant by accident. Also, mild scent sensitivity — will the demo produce strong fumes in a small room?",
+        },
+        {
+          teacher:
+            "Hello,\nPresentation skills: next session you'll deliver 90 seconds on any topic you enjoy — content matters less than clear structure (hook, point, example, close).",
+          student:
+            "Hello! Ninety seconds sounds short but I always go long when I'm nervous. If I time myself at home and I'm at 2 minutes, should I cut examples or cut background? I'd rather keep one strong example than rush three shallow ones — does that match what you'll be grading for?",
+        },
+        {
+          teacher:
+            "Hi,\nThanks for the respectful discussion today. Neutral follow-up: I'm here if you want feedback on your participation goal — optional one-paragraph self-review by Monday.",
+          student:
+            "Hi! I'll write it. I'm shy in whole-class settings but I talk more in pairs — in my self-review, is it okay to mention that and propose a goal like 'speak once per whole-class discussion' even if it sounds small? I want a goal I can actually hit so I build confidence instead of breaking a promise to myself.",
+        },
+        {
+          teacher:
+            "Hi there,\nGeometry: review triangle similarity criteria. We'll do a mixed set next lesson — bring questions from homework you almost solved but didn't finish.",
+          student:
+            "Hi! I can prove similarity when diagrams are drawn nicely, but when the figure is rotated I don't 'see' the corresponding angles. I'll bring two problems I almost solved. If you have a quick sketch habit (marking matching angles with arcs), I'd love to copy your method — mine is messy and I lose track.",
+        },
+        {
+          teacher:
+            "Hello,\nThanks again — neutral note: great improvement in punctuality and prep. Keep that momentum; it makes class time much more useful for everyone.",
+          student:
+            "Hello — that means a lot, thank you. I changed my alarm and pre-pack my bag the night before; small boring habits but they helped. If I slip during exam weeks, I'll reset instead of spiraling. Also, if you ever notice me arriving on time but mentally scattered, feel free to call it out — I respond well to gentle nudges.",
+        },
+      ];
+
       const btn = document.getElementById("randomBtn");
       const cellTeacher = document.getElementById("cellTeacher");
       const cellStudent = document.getElementById("cellStudent");
+      const btn2 = document.getElementById("randomBtnSession2");
+      const cellTeacher2 = document.getElementById("cellTeacher2");
+      const cellStudent2 = document.getElementById("cellStudent2");
+
+      function pickPair(list) {
+        return list[Math.floor(Math.random() * list.length)];
+      }
+
+      function fillCells(teacherEl, studentEl, pair) {
+        teacherEl.textContent = pair.teacher;
+        studentEl.textContent = pair.student;
+        teacherEl.classList.remove("placeholder");
+        studentEl.classList.remove("placeholder");
+      }
 
       btn.addEventListener("click", () => {
-        const i = Math.floor(Math.random() * pairs.length);
-        const { teacher, student } = pairs[i];
-        cellTeacher.textContent = teacher;
-        cellStudent.textContent = student;
-        cellTeacher.classList.remove("placeholder");
-        cellStudent.classList.remove("placeholder");
+        fillCells(cellTeacher, cellStudent, pickPair(pairs));
+      });
+
+      btn2.addEventListener("click", () => {
+        fillCells(cellTeacher2, cellStudent2, pickPair(pairsSession2));
       });
     </script>
   </body>
